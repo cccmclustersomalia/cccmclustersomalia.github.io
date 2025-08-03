@@ -3,82 +3,43 @@ document.addEventListener('DOMContentLoaded', function () {
     const contentTitle = document.getElementById('content-title');
     const contentDisplayArea = document.getElementById('content-display-area');
 
-    // --- Main Routing and Content Loading Function ---
-    function loadContent(linkElement) {
-        if (!linkElement) return; // Exit if the link doesn't exist
+    if (!contentTitle) return; // Stop script if it's on a page without these elements
 
-        const newTitle = linkElement.textContent;
-        contentTitle.textContent = newTitle;
-        contentDisplayArea.innerHTML = ''; // Clear the display area
-
-        // Logic for iframe-based dashboards
-        if (linkElement.dataset.iframeSrc) {
-            const iframe = document.createElement('iframe');
-            iframe.src = linkElement.dataset.iframeSrc;
-            iframe.title = newTitle;
-            iframe.frameborder = '0';
-            iframe.allowfullscreen = true;
-            contentDisplayArea.appendChild(iframe);
-        }
-        // Logic for PDF-based dashboards
-        else if (linkElement.dataset.pdfSrc) {
-            const iframe = document.createElement('iframe');
-            iframe.src = `pdfjs/web/viewer.html?file=${encodeURIComponent(linkElement.dataset.pdfSrc)}`;
-            iframe.title = newTitle;
-            contentDisplayArea.appendChild(iframe);
-        }
-
-        // Open the parent accordion tab if it's closed
-        const parentNavItem = linkElement.closest('.nav-item');
-        if (parentNavItem) {
-            const mainTab = parentNavItem.querySelector('.main-tab');
-            if (mainTab.getAttribute('aria-expanded') === 'false') {
-                mainTab.click();
-            }
-        }
-    }
-
-
-    // --- Event Listener for Clicks ---
+    // --- Dynamic Content Loading Logic ---
     const contentLinks = document.querySelectorAll('.content-link');
     contentLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-            // We don't prevent default anymore, so the hash changes
-            loadContent(link);
+            event.preventDefault();
+            const newTitle = link.textContent;
+            contentTitle.textContent = newTitle;
+
+            contentDisplayArea.innerHTML = ''; 
+
+            if (link.dataset.iframeSrc) {
+                const iframe = document.createElement('iframe');
+                iframe.src = link.dataset.iframeSrc;
+                iframe.title = newTitle;
+                iframe.frameborder = '0';
+                iframe.allowfullscreen = true;
+                contentDisplayArea.appendChild(iframe);
+            
+            } else if (link.dataset.pdfSrc) {
+                const iframe = document.createElement('iframe');
+                iframe.src = `../pdfjs/web/viewer.html?file=${encodeURIComponent(link.dataset.pdfSrc)}`;
+                iframe.title = newTitle;
+                contentDisplayArea.appendChild(iframe);
+            }
         });
     });
 
-
-    // --- NEW: Handle Page Load and URL Routing ---
-    function handleRoute() {
-        // Get the "hash" from the URL (e.g., #service-mapping)
-        const hash = window.location.hash;
-
-        if (hash) {
-            // Find the link that corresponds to the hash
-            const linkToLoad = document.querySelector(`a[href="${hash}"]`);
-            if (linkToLoad) {
-                // If the link is found, load its content
-                loadContent(linkToLoad);
-            }
-        }
-    }
-
-    // Call the routing function when the page first loads
-    handleRoute();
-
-    // Also handle routing when the user clicks the browser's back/forward buttons
-    window.addEventListener('hashchange', handleRoute);
-
-
-    // --- Accordion Menu & Mobile Toggle Logic (Unchanged) ---
-    // (The rest of your existing JavaScript for the accordion and mobile menu goes here)
+    // --- Accordion Menu & Mobile Toggle Logic ---
     const mainTabs = document.querySelectorAll('.main-tab');
     mainTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const parentNavItem = tab.parentElement;
             const subMenu = parentNavItem.querySelector('.sub-menu');
             const isExpanded = tab.getAttribute('aria-expanded') === 'true';
+
             document.querySelectorAll('.nav-item').forEach(item => {
                 if (item !== parentNavItem) {
                     item.querySelector('.main-tab').classList.remove('active');
@@ -87,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (otherSubMenu) { otherSubMenu.style.maxHeight = null; }
                 }
             });
+
             if (isExpanded) {
                 tab.classList.remove('active');
                 tab.setAttribute('aria-expanded', 'false');
@@ -98,16 +60,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
     const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     const sidebar = document.querySelector('.sidebar');
-    mobileNavToggle.addEventListener('click', () => {
-        const isVisible = sidebar.getAttribute('data-visible');
-        if (isVisible === "true") {
-            sidebar.setAttribute('data-visible', false);
-            mobileNavToggle.setAttribute('aria-expanded', false);
-        } else {
-            sidebar.setAttribute('data-visible', true);
-            mobileNavToggle.setAttribute('aria-expanded', true);
-        }
-    });
+    if(mobileNavToggle) {
+        mobileNavToggle.addEventListener('click', () => {
+            const isVisible = sidebar.getAttribute('data-visible');
+            if (isVisible === "true") {
+                sidebar.setAttribute('data-visible', false);
+                mobileNavToggle.setAttribute('aria-expanded', false);
+            } else {
+                sidebar.setAttribute('data-visible', true);
+                mobileNavToggle.setAttribute('aria-expanded', true);
+            }
+        });
+    }
 });
