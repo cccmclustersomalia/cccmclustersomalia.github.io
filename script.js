@@ -3,16 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const contentTitle = document.getElementById('content-title');
     const contentDisplayArea = document.getElementById('content-display-area');
 
-    if (!contentTitle) return; // Stop script if it's on a page without these elements
+    if (!contentTitle) return;
 
-    // --- Dynamic Content Loading Logic ---
     const contentLinks = document.querySelectorAll('.content-link');
     contentLinks.forEach(link => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
             const newTitle = link.textContent;
             contentTitle.textContent = newTitle;
-
             contentDisplayArea.innerHTML = ''; 
 
             if (link.dataset.iframeSrc) {
@@ -32,23 +30,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // --- Accordion Menu & Mobile Toggle Logic ---
     const mainTabs = document.querySelectorAll('.main-tab');
     mainTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const parentNavItem = tab.parentElement;
             const subMenu = parentNavItem.querySelector('.sub-menu');
+            if(!subMenu) return;
+            
             const isExpanded = tab.getAttribute('aria-expanded') === 'true';
-
-            document.querySelectorAll('.nav-item').forEach(item => {
-                if (item !== parentNavItem) {
-                    item.querySelector('.main-tab').classList.remove('active');
-                    item.querySelector('.main-tab').setAttribute('aria-expanded', 'false');
-                    const otherSubMenu = item.querySelector('.sub-menu');
-                    if (otherSubMenu) { otherSubMenu.style.maxHeight = null; }
-                }
-            });
-
             if (isExpanded) {
                 tab.classList.remove('active');
                 tab.setAttribute('aria-expanded', 'false');
