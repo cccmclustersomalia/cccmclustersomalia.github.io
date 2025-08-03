@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCCM Cluster Somalia - Dashboards</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <div class="page-container">
+        <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+            <span class="visually-hidden">Menu</span>
+        </button>
+
+        <nav class="sidebar" id="primary-navigation">
+            <div class="sidebar-header">
+                <img src="images/CCCMCluster_Somalia_White.png" alt="CCCM Cluster Somalia Logo" class="sidebar-logo">
+            </div>
+            <ul class="nav-menu">
+
+                <li class="nav-item">
+                    <div class="main-tab" role="button" aria-expanded="false">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboards</span>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#" class="content-link" data-pdf-src="documents/dashboards/service-monitoring.pdf">Service Monitoring</a></li>
+                        <li><a href="#" class="content-link" data-iframe-src="https://app.powerbi.com/view?r=eyJrIjoiYjZjOGNlNTAtZDBmMi00MmY0LWE0NWUtNTVmOTdmYzE0YzA4IiwidCI6IjE1ODgyNjJkLTIzZmItNDNiNC1iZDZlLWJjZTQ5YzhlNjE4NiIsImMiOjh9">Service Mapping</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="content-panel">
+                <div class="content-header">
+                    <h1 id="content-title">Welcome</h1>
+                </div>
+                <div id="content-display-area" class="content-display-area">
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+/* --- General & Reset --- */
+:root {
+    /* CCCM Cluster Color Palette */
+    --brand-primary-dark: #1B657C; /* Blue Sapphire */
+    --brand-primary-text: #2C2C2C; /* Baltic Sea */
+    --brand-accent: #EC6B4D;       /* Burnt Sienna */
+    --bg-light: #F5F3E8;          /* Ecru White */
+    --text-light: #F5F3E8;         /* Ecru White */
+
+    --sidebar-width: 280px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--brand-primary-text);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --- Layout --- */
+.page-container {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: 100vh;
+}
+
+.main-content {
+    background-color: var(--bg-light);
+    padding: 2rem 2.5rem;
+}
+
+/* --- Sidebar Navigation --- */
+.sidebar {
+    background-color: var(--brand-primary-dark);
+    color: var(--text-light);
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(245, 243, 232, 0.2);
+    text-align: center;
+}
+
+.sidebar-logo {
+    max-width: 200px;
+    height: auto;
+}
+
+.nav-menu {
+    list-style: none;
+    margin-top: 1rem;
+    flex-grow: 1;
+}
+
+.main-tab {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    user-select: none;
+    border-left: 4px solid transparent;
+}
+
+.main-tab:hover {
+    background-color: rgba(236, 107, 77, 0.1);
+}
+
+.main-tab.active {
+    background-color: var(--brand-accent);
+    color: #fff;
+    border-left: 4px solid var(--text-light);
+}
+
+.main-tab i {
+    margin-right: 1rem;
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.main-tab .arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.main-tab.active .arrow {
+    transform: rotate(180deg);
+}
+
+.sub-menu {
+    list-style: none;
+    background-color: rgba(0, 0, 0, 0.25);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.sub-menu a {
+    display: block;
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem 0.8rem 3.5rem;
+    font-weight: 400;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(245, 243, 232, 0.1);
+}
+
+.sub-menu a:hover {
+    background-color: var(--brand-accent);
+    color: #fff;
+}
+
+/* --- Content Panel Styles --- */
+.content-panel {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(44, 44, 44, 0.08);
+    overflow: hidden;
+}
+
+.content-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+#content-title {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    color: var(--brand-primary-dark);
+}
+
+.content-display-area {
+    height: 80vh;
+}
+
+.content-display-area iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+/* --- Mobile Navigation --- */
+.mobile-nav-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        width: var(--sidebar-width);
+    }
+    
+    .sidebar[data-visible="true"] {
+        transform: translateX(0%);
+    }
+
+    .mobile-nav-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background: var(--brand-primary-dark);
+        color: var(--text-light);
+        border: none;
+        padding: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .mobile-nav-toggle .fa-bars {
+        font-size: 1.5rem;
+    }
+
+    .main-content {
+        grid-column: 1 / -1;
+        padding-top: 5rem;
+    }
+}
